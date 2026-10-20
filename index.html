@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>บอทควรพูดยังไงดี</title>
+<meta name="description" content="เลือกตัวละคร ปรับน้ำเสียง แล้วคัดลอก prompt ไปใช้กับแชทบอท">
+<meta name="theme-color" content="#FFFDF7">
+<!-- แก้ ssupawat และ bot-voice ใน canonical, og:url, og:image, twitter:image ให้ตรงกับที่อยู่จริง -->
+<link rel="canonical" href="https://ssupawat.github.io/bot-voice/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AD%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="th_TH">
+<meta property="og:title" content="บอทควรพูดยังไงดี">
+<meta property="og:description" content="เลือกตัวละคร ปรับน้ำเสียง แล้วคัดลอก prompt ไปใช้กับแชทบอท">
+<meta property="og:url" content="https://ssupawat.github.io/bot-voice/">
+<meta property="og:image" content="https://ssupawat.github.io/bot-voice/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="บอทควรพูดยังไงดี">
+<meta name="twitter:description" content="เลือกตัวละคร ปรับน้ำเสียง แล้วคัดลอก prompt ไปใช้กับแชทบอท">
+<meta name="twitter:image" content="https://ssupawat.github.io/bot-voice/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&family=Mali:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFDF7;--card:#FFFFFF;--ink:#101828;--dot:#E9E3D2;
+  --t1:#101828;--t2:#344054;--t3:#667085;--ac:#FF8FB8;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0C111D;--card:#161B26;--ink:#7A8194;--dot:#1A2130;
+    --t1:#F5F5F6;--t2:#CECFD2;--t3:#94969C;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C111D;--card:#161B26;--ink:#7A8194;--dot:#1A2130;
+  --t1:#F5F5F6;--t2:#CECFD2;--t3:#94969C;color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--bg);background-image:radial-gradient(var(--dot) 1.5px,transparent 1.5px);background-size:20px 20px;color:var(--t1);font-family:Inter,"Noto Sans Thai",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%}
+.wrap{max-width:980px;margin:0 auto;padding:28px 16px 56px}
+h1,h2,.ch b,.btn,.sh,.sl .top{font-family:Mali,"Noto Sans Thai",Inter,sans-serif}
+h1{font-size:28px;line-height:1.4;font-weight:700;margin:0;text-decoration:underline wavy var(--ac) 3px;text-underline-offset:8px;text-decoration-skip-ink:none}
+h2{font-size:18px;line-height:1.5;font-weight:700;margin:0}
+p{margin:0}
+.sub{color:var(--t3);margin-top:4px}
+.hd{margin-bottom:28px}
+.hd .sub{margin-top:12px}
+/* card */
+.card{background:var(--card);border:2px solid var(--ink);border-radius:18px;box-shadow:4px 4px 0 var(--ink);padding:20px}
+.card+.card{margin-top:22px}
+.row{display:flex;gap:12px;align-items:center}
+.sp{justify-content:space-between}
+.mt12{margin-top:12px}
+/* buttons */
+.btn{appearance:none;border:2px solid var(--ink);background:var(--card);color:var(--t1);font-weight:700;font-size:14px;padding:8px 16px;border-radius:12px;box-shadow:0 3px 0 var(--ink);cursor:pointer;min-height:44px}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 0 var(--ink)}
+.btn:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.btn:focus-visible,.lnk:focus-visible,.ch:focus-visible{outline:3px solid var(--ac);outline-offset:3px}
+.btn.pri{background:var(--ac);color:#101828}
+.btn.sm{min-height:36px;padding:2px 12px;font-size:13px}
+.lnk{all:unset;color:var(--t2);font-weight:600;font-size:14px;cursor:pointer;padding:10px 4px;border-radius:6px;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:4px}
+.lnk:focus-visible{outline:3px solid var(--ac);outline-offset:3px}
+.acts{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:20px}
+/* avatar */
+.av{flex:none;width:44px;height:44px;border-radius:50%;overflow:hidden;background:var(--c,var(--ac));border:2px solid var(--ink)}
+.av svg{width:100%;height:100%;display:block}
+.av.lg{width:56px;height:56px}
+/* character picker */
+.chars{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-top:16px}
+.ch{all:unset;box-sizing:border-box;border:2px solid var(--ink);border-radius:16px;padding:12px;cursor:pointer;background:var(--card);box-shadow:0 3px 0 var(--ink);display:flex;flex-direction:column;gap:10px}
+.ch:hover{transform:translateY(-2px) rotate(-1deg)}
+.ch[aria-pressed="true"]{background:color-mix(in srgb,var(--c) 30%,var(--card));box-shadow:4px 4px 0 var(--ink);transform:translate(-2px,-2px) rotate(-1.5deg)}
+.ch b{font-weight:700;font-size:15px;display:block}
+.ch span.d{font-size:13px;color:var(--t2);line-height:1.5;display:block;margin-top:2px}
+/* grid */
+.two{display:grid;grid-template-columns:1fr;gap:22px}
+@media(min-width:820px){.two{grid-template-columns:1fr 1fr;align-items:start}.wrap{padding-top:44px}}
+/* slider */
+.sl{margin-top:22px}
+.sl .top{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600;color:var(--t2);margin-bottom:12px}
+.sl .top .v{background:var(--ac);color:#101828;border:2px solid var(--ink);border-radius:10px;padding:0 10px;font-size:13px;font-weight:700}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:14px;border:2px solid var(--ink);border-radius:10px;background:linear-gradient(to right,var(--ac) var(--p),var(--card) var(--p));margin:0;outline:none;display:block}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;border:2px solid var(--ink);box-shadow:0 3px 0 var(--ink);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:2px solid var(--ink);box-shadow:0 3px 0 var(--ink);cursor:pointer}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--ac);outline-offset:3px}
+input[type=range]:focus-visible::-moz-range-thumb{outline:3px solid var(--ac);outline-offset:3px}
+.ticks{display:flex;justify-content:space-between;font-size:13px;color:var(--t3);margin-top:12px}
+.ticks span{padding:0 8px;border-radius:8px}
+.ticks .a{background:var(--ac);color:#101828;font-weight:700}
+/* inputs */
+label.f{display:block;font-size:14px;font-weight:600;color:var(--t2);margin-top:18px}
+input[type=text],textarea{width:100%;margin-top:6px;font-size:16px;color:var(--t1);background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:10px 14px;min-height:44px}
+input[type=text]{font-family:inherit}
+textarea{font:16px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,"Noto Sans Thai",monospace;min-height:84px;resize:vertical}
+input[type=text]:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--ac) 50%,transparent)}
+input::placeholder,textarea::placeholder{color:var(--t3)}
+/* output */
+pre{margin:14px 0 0;background:color-mix(in srgb,var(--ac) 12%,var(--card));border:2px dashed var(--ink);border-radius:14px;padding:14px;font:13px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,"Noto Sans Thai",monospace;white-space:pre-wrap;word-break:break-word;color:var(--t1);max-height:420px;overflow:auto}
+.sh{display:inline-block;margin-top:18px;background:var(--ac);color:#101828;border:2px solid var(--ink);border-radius:8px;padding:0 10px;font-size:13px;font-weight:700;line-height:1.7}
+.cap{font-size:13px;color:var(--t3);margin-top:10px}
+@media(prefers-reduced-motion:no-preference){
+  .btn,.ch{transition:transform .12s,box-shadow .12s}
+  .ch[aria-pressed="true"] .av{animation:pop .45s}
+}
+@keyframes pop{0%{transform:scale(.8) rotate(-8deg)}60%{transform:scale(1.12) rotate(4deg)}100%{transform:scale(1) rotate(0)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hd">
+    <div>
+      <h1>บอทควรพูดยังไงดี</h1>
+      <p class="sub">เลือกบุคลิกแชทบอท แล้วคัดลอก prompt ไปใช้</p>
+    </div>
+  </div>
+  <div id="app"></div>
+</div>
+<script>
+const AV={"Mali":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"none\" shape-rendering=\"crispEdges\" width=\"96\" height=\"96\"><metadata xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dcterms=\"http://purl.org/dc/terms/\"><rdf:RDF><rdf:Description><dc:title>Pixel Art</dc:title><dc:creator>DiceBear</dc:creator><dc:source xsi:type=\"dcterms:URI\">https://www.figma.com/community/file/1198754108850888330</dc:source><dcterms:license xsi:type=\"dcterms:URI\">https://creativecommons.org/publicdomain/zero/1.0/</dcterms:license><dc:rights>„Pixel Art” (https://www.figma.com/community/file/1198754108850888330) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)</dc:rights></rdf:Description></rdf:RDF></metadata><mask id=\"viewboxMask\"><rect width=\"16\" height=\"16\" rx=\"0\" ry=\"0\" x=\"0\" y=\"0\" fill=\"#fff\" /></mask><g mask=\"url(#viewboxMask)\"><path d=\"M4 2h8v1h1v3h1v2h-1v3h-1v1H9v1h4v1h1v2H2v-2h1v-1h4v-1H4v-1H3V8H2V6h1V3h1V2Z\" fill=\"#f5cfa0\"/><path d=\"M4 2h8v1h1v3h1v2h-1v3h-1v1H4v-1H3V8H2V6h1V3h1V2Z\" fill=\"#fff\" fill-opacity=\".1\"/><path d=\"M13 7h1v2h-1zM2 7h1v2H2z\" fill=\"#ffd700\"/><path d=\"M4 13h1v1h6v-1h1v1h1v2H3v-2h1v-1Z\" fill=\"#ffeead\"/><path fill=\"#fff\" fill-opacity=\".5\" d=\"M9 15h2v1H9z\"/><g fill-rule=\"evenodd\" clip-rule=\"evenodd\"><path d=\"M5 6h1v2H4V7h1V6Zm5 0h1v2H9V7h1V6Z\" fill=\"#fff\"/><path d=\"M6 6v1H5v1h2V6H6Zm5 0v1h-1v1h2V6h-1Z\" fill=\"#697b94\"/><path d=\"M6 6v1h1V6H6ZM5 7v1h1V7H5Zm6-1v1h1V6h-1Zm-1 1v1h1V7h-1Z\" fill=\"#fff\" fill-opacity=\".5\"/></g><path d=\"M6 9h4v1H6V9Z\" fill=\"#d29985\"/><path d=\"M3 2h10v1h1v3h-1V4H3v2H2V3h1V2ZM13 8h1v1h1v2h-1v-1h-1V8ZM15 11h1v1h-1v-1Z\" fill=\"#91cb15\"/></g></svg>","Phi-Chai":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"none\" shape-rendering=\"crispEdges\" width=\"96\" height=\"96\"><metadata xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dcterms=\"http://purl.org/dc/terms/\"><rdf:RDF><rdf:Description><dc:title>Pixel Art</dc:title><dc:creator>DiceBear</dc:creator><dc:source xsi:type=\"dcterms:URI\">https://www.figma.com/community/file/1198754108850888330</dc:source><dcterms:license xsi:type=\"dcterms:URI\">https://creativecommons.org/publicdomain/zero/1.0/</dcterms:license><dc:rights>„Pixel Art” (https://www.figma.com/community/file/1198754108850888330) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)</dc:rights></rdf:Description></rdf:RDF></metadata><mask id=\"viewboxMask\"><rect width=\"16\" height=\"16\" rx=\"0\" ry=\"0\" x=\"0\" y=\"0\" fill=\"#fff\" /></mask><g mask=\"url(#viewboxMask)\"><path d=\"M4 2h8v1h1v3h1v2h-1v3h-1v1H9v1h4v1h1v2H2v-2h1v-1h4v-1H4v-1H3V8H2V6h1V3h1V2Z\" fill=\"#e0b687\"/><path d=\"M4 2h8v1h1v3h1v2h-1v3h-1v1H4v-1H3V8H2V6h1V3h1V2Z\" fill=\"#fff\" fill-opacity=\".1\"/><path d=\"M10 13h3v1h1v2H2v-2h1v-1h3v1h4v-1Z\" fill=\"#ffc425\"/><path fill=\"#fff\" fill-opacity=\".2\" d=\"M4 13h1v3H4zM11 13h1v3h-1z\"/><path fill=\"#fff\" d=\"M4 5h3v2H4zM9 5h3v2H9z\"/><path fill=\"#647b90\" d=\"M9 6h1v1H9zM4 6h1v1H4z\"/><mask id=\"beardVariant01-a\" style=\"mask-type:luminance\" maskUnits=\"userSpaceOnUse\" x=\"3\" y=\"8\" width=\"10\" height=\"4\"><path opacity=\".9\" d=\"M3 8h2v1h1v1h4V9h1V8h2v3h-1v1H4v-1H3V8Z\" fill=\"#83623b\"/></mask><g mask=\"url(#beardVariant01-a)\"><path fill=\"#83623b\" d=\"M0 0h16v16H0z\"/><path fill=\"#fff\" fill-opacity=\".3\" d=\"M0 0h16v16H0z\"/></g><path d=\"M8 10v1h1v-1H8Z\" fill=\"#e35d6a\"/><path d=\"M4 2h8v1h1v2h1v6h1v2h-2v-1h-1V5h-1V4H5v1H4v7H3v1H1v-2h1V5h1V3h1V2Z\" fill=\"#83623b\"/></g></svg>","Khun-Nok":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"none\" shape-rendering=\"crispEdges\" width=\"96\" height=\"96\"><metadata xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dcterms=\"http://purl.org/dc/terms/\"><rdf:RDF><rdf:Description><dc:title>Pixel Art</dc:title><dc:creator>DiceBear</dc:creator><dc:source xsi:type=\"dcterms:URI\">https://www.figma.com/community/file/1198754108850888330</dc:source><dcterms:license xsi:type=\"dcterms:URI\">https://creativecommons.org/publicdomain/zero/1.0/</dcterms:license><dc:rights>„Pixel Art” (https://www.figma.com/community/file/1198754108850888330) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)</dc:rights></rdf:Description></rdf:RDF></metadata><mask id=\"viewboxMask\"><rect width=\"16\" height=\"16\" rx=\"0\" ry=\"0\" x=\"0\" y=\"0\" fill=\"#fff\" /></mask><g mask=\"url(#viewboxMask)\"><path d=\"M4 2h8v1h1v3h1v2h-1v3h-1v1H9v1h4v1h1v2H2v-2h1v-1h4v-1H4v-1H3V8H2V6h1V3h1V2Z\" fill=\"#b68655\"/><path d=\"M4 2h8v1h1v3h1v2h-1v3h-1v1H4v-1H3V8H2V6h1V3h1V2Z\" fill=\"#fff\" fill-opacity=\".1\"/><path d=\"M4 13h2v1h1v1h2v-1h1v-1h2v3H4v-3Z\" fill=\"#ffc425\"/><path fill=\"#fff\" fill-opacity=\".3\" d=\"M10 14h1v1h-1zM11 13h1v1h-1zM9 15h1v1H9z\"/><path fill=\"#fff\" fill-opacity=\".5\" d=\"M9 14h1v1H9zM10 13h1v1h-1zM8 15h1v1H8z\"/><path fill=\"#fff\" fill-opacity=\".3\" d=\"M6 14H5v1h1zM5 13H4v1h1zM7 15H6v1h1z\"/><path fill=\"#fff\" fill-opacity=\".5\" d=\"M7 14H6v1h1zM6 13H5v1h1zM8 15H7v1h1z\"/><path fill=\"#fff\" d=\"M4 5h3v2H4zM9 5h3v2H9z\"/><path d=\"M11 5h-1v1H9v1h3V6h-1V5Z\" fill=\"#76778b\"/><path fill=\"#fff\" fill-opacity=\".5\" d=\"M9 6h1v1H9zM10 5h1v1h-1zM11 6h1v1h-1z\"/><path d=\"M6 5H5v1H4v1h3V6H6V5Z\" fill=\"#76778b\"/><path fill=\"#fff\" fill-opacity=\".5\" d=\"M4 6h1v1H4zM5 5h1v1H5zM6 6h1v1H6z\"/><path d=\"M7 9v1h1v1h1V9H7Z\" fill=\"#c98276\"/><path d=\"M3 2h10v1H3zM3 3h2v1H3zM7 1h5v1H7zM13 3h-1v1h1z\" fill=\"#bd1700\"/></g></svg>","Lung-Somchai":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"none\" shape-rendering=\"crispEdges\" width=\"96\" height=\"96\"><metadata xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dcterms=\"http://purl.org/dc/terms/\"><rdf:RDF><rdf:Description><dc:title>Pixel Art</dc:title><dc:creator>DiceBear</dc:creator><dc:source xsi:type=\"dcterms:URI\">https://www.figma.com/community/file/1198754108850888330</dc:source><dcterms:license xsi:type=\"dcterms:URI\">https://creativecommons.org/publicdomain/zero/1.0/</dcterms:license><dc:rights>„Pixel Art” (https://www.figma.com/community/file/1198754108850888330) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)</dc:rights></rdf:Description></rdf:RDF></metadata><mask id=\"viewboxMask\"><rect width=\"16\" height=\"16\" rx=\"0\" ry=\"0\" x=\"0\" y=\"0\" fill=\"#fff\" /></mask><g mask=\"url(#viewboxMask)\"><path d=\"M4 2h8v1h1v3h1v2h-1v3h-1v1H9v1h4v1h1v2H2v-2h1v-1h4v-1H4v-1H3V8H2V6h1V3h1V2Z\" fill=\"#8d5524\"/><path d=\"M4 2h8v1h1v3h1v2h-1v3h-1v1H4v-1H3V8H2V6h1V3h1V2Z\" fill=\"#fff\" fill-opacity=\".1\"/><path d=\"M10 13h3v1h1v2H2v-2h1v-1h3v1h4v-1Z\" fill=\"#5bc0de\"/><path fill=\"#fff\" fill-opacity=\".2\" d=\"M11 14h1v2h-1zM4 14h1v2H4z\"/><path d=\"M10 5h1v2H9V6h1V5ZM5 5h1v2H4V6h1V5Z\" fill=\"#fff\"/><path fill=\"#76778b\" d=\"M11 6h-1v1h1zM6 6H5v1h1z\"/><path d=\"M7 9h2v1H7V9Z\" fill=\"#c98276\"/><path d=\"M4 2h8v1h1v2h1v7h-1v-1h-1V5h-1V4H5v1H4v6H3v1H2V5h1V3h1V2ZM2 12v1H1v-1h1ZM14 12h1v1h-1v-1Z\" fill=\"#a78961\"/></g></svg>","Dr-Narin":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"none\" shape-rendering=\"crispEdges\" width=\"96\" height=\"96\"><metadata xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dcterms=\"http://purl.org/dc/terms/\"><rdf:RDF><rdf:Description><dc:title>Pixel Art</dc:title><dc:creator>DiceBear</dc:creator><dc:source xsi:type=\"dcterms:URI\">https://www.figma.com/community/file/1198754108850888330</dc:source><dcterms:license xsi:type=\"dcterms:URI\">https://creativecommons.org/publicdomain/zero/1.0/</dcterms:license><dc:rights>„Pixel Art” (https://www.figma.com/community/file/1198754108850888330) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)</dc:rights></rdf:Description></rdf:RDF></metadata><mask id=\"viewboxMask\"><rect width=\"16\" height=\"16\" rx=\"0\" ry=\"0\" x=\"0\" y=\"0\" fill=\"#fff\" /></mask><g mask=\"url(#viewboxMask)\"><path d=\"M4 2h8v1h1v3h1v2h-1v3h-1v1H9v1h4v1h1v2H2v-2h1v-1h4v-1H4v-1H3V8H2V6h1V3h1V2Z\" fill=\"#b68655\"/><path d=\"M4 2h8v1h1v3h1v2h-1v3h-1v1H4v-1H3V8H2V6h1V3h1V2Z\" fill=\"#fff\" fill-opacity=\".1\"/><path d=\"M5 13H3v1H2v2h12v-2h-1v-1h-2v1H5v-1Z\" fill=\"#d11141\"/><path fill=\"#fff\" d=\"M4 5h3v2H4z\"/><path fill=\"#647b90\" d=\"M5 6h1v1H5z\"/><path fill=\"#fff\" d=\"M9 5h3v2H9z\"/><path fill=\"#647b90\" d=\"M10 6h1v1h-1z\"/><path d=\"M6 10v1h1v1h2v-1h1v-1H9V9H7v1H6Z\" fill=\"#de0f0d\"/><path d=\"M7 10v1h2v-1H7Z\" fill=\"#fff\"/><path d=\"M4 2h8v1h1v2h1v6h1v2h-2v-1h-1V5h-1V4H5v1H4v7H3v1H1v-2h1V5h1V3h1V2Z\" fill=\"#28150a\"/></g></svg>"};
+const CH={
+  mali:{c:'#FF8FB8',seed:'Mali',name:'น้องมะลิ',role:'แอดมิน',desc:'เปิดด้วยคำทักสดใส ปิดด้วยการชวนถามต่อ',def:[2,1,2],
+    f:[{me:'ดิฉัน',you:'คุณลูกค้า',e:'ค่ะ',q:'คะ',na:'นะคะ'},{me:'หนู',you:'คุณลูกค้า',e:'ค่ะ',q:'คะ',na:'นะคะ'},{me:'หนู',you:'พี่',e:'ค่า',q:'คะ',na:'นะ'}],
+    v:['เปิดข้อความด้วยคำทักทายหรือคำรับที่สดใส เช่น "สวัสดี{e}" "ได้เลย{e}" "รับทราบ{e}"',
+       'เริ่มจากรับรู้ความรู้สึกหรือความต้องการของลูกค้า แล้วจึงให้ข้อมูล',
+       'ให้ข้อมูลด้วยน้ำเสียงกระตือรือร้น เช่น "เรื่องนี้ตอบได้ดังนี้{na}" "{me}สรุปให้ตามนี้{na}"',
+       'ปิดด้วยการชวนให้ถามต่อ เช่น "มีอะไรถาม{me}ได้เลย{na}"']},
+  chai:{c:'#5BC0EB',seed:'Phi-Chai',name:'พี่ชัย',role:'ผู้ช่วยดูแลลูกค้า',desc:'ตอบก่อน เสริมเหตุผล 1 อย่าง ประโยคสั้น',def:[1,0,1],
+    f:[{me:'ผม',you:'คุณลูกค้า',e:'ครับ',q:'ครับ',na:'นะครับ'},{me:'พี่',you:'คุณ',e:'ครับ',q:'ครับ',na:'นะครับ'},{me:'พี่',you:'คุณ',e:'ครับผม',q:'ครับ',na:'นะ'}],
+    v:['เปิดด้วยประโยคตอบรับสั้นๆ แบบพี่ชายใจดี เช่น "ได้เลย{e}" "เข้าใจ{e}"',
+       'ตอบคำถามก่อน แล้วเสริมเหตุผลหรือทางเลือกอีก 1 อย่าง',
+       'ใช้ประโยคสั้น ชัด อ่านจบในรอบเดียว',
+       'ปิดด้วยประโยคอบอุ่นที่บอกว่าพร้อมช่วยต่อ เช่น "ติดตรงไหน บอก{me}ได้{na}"']},
+  nok:{c:'#A78BFA',seed:'Khun-Nok',name:'คุณนก',role:'เลขาประจำร้าน',desc:'ทวนความต้องการก่อนตอบ เรียงเป็นข้อ',def:[0,2,0],
+    f:[{me:'ดิฉัน',you:'คุณลูกค้า',e:'ค่ะ',q:'คะ',na:'นะคะ'},{me:'ดิฉัน',you:'คุณลูกค้า',e:'ค่ะ',q:'คะ',na:'นะคะ'},{me:'เรา',you:'คุณ',e:'ค่ะ',q:'คะ',na:'นะคะ'}],
+    v:['เปิดด้วยคำทักทายหรือคำขอบคุณที่เป็นทางการ เช่น "ขอบคุณที่ติดต่อมา{e}" "สวัสดี{e}"',
+       'ทวนความต้องการของลูกค้าสั้นๆ ก่อนตอบ เพื่อยืนยันว่าเข้าใจตรงกัน',
+       'เรียงคำตอบโดยให้ข้อมูลสำคัญก่อน รายละเอียดตามหลัง',
+       'เมื่อมีหลายขั้นตอน เขียนเป็นข้อ 1 2 3',
+       'ปิดด้วยประโยคสรุปและเชิญให้สอบถามเพิ่ม เช่น "หากต้องการข้อมูลเพิ่มเติม แจ้ง{me}ได้เสมอ{e}"']},
+  lung:{c:'#6FD08C',seed:'Lung-Somchai',name:'ลุงสมชาย',role:'เจ้าของร้าน',desc:'ภาษาพูดแบบคุยหน้าร้าน เป็นกันเอง',def:[2,1,0],
+    f:[{me:'ผม',you:'คุณลูกค้า',e:'ครับ',q:'ครับ',na:'นะครับ'},{me:'ลุง',you:'คุณ',e:'ครับ',q:'ครับ',na:'นะครับ'},{me:'ลุง',you:'หลาน',e:'จ้า',q:'จ๊ะ',na:'นะ'}],
+    v:['เปิดด้วยคำทักแบบคนคุ้นเคย เช่น "ว่ายังไง{e}" "ยินดีต้อนรับ{e}"',
+       'พูดด้วยภาษาพูดตรงๆ เหมือนคุยกันหน้าร้าน',
+       'แนะนำสินค้าด้วยน้ำเสียงของเจ้าของร้านที่รู้จักของดี คุยกับลูกค้าเหมือนลูกค้าประจำ',
+       'ปิดด้วยคำชวนแบบเป็นกันเอง เช่น "ถาม{me}ได้ตลอด{na}" "แวะมาใหม่ได้{na}"']},
+  narin:{c:'#FFA94D',seed:'Dr-Narin',name:'คุณนรินทร์',role:'ที่ปรึกษาด้านสินค้า',desc:'เริ่มด้วยข้อสรุป ตามด้วยเหตุผล 1 ถึง 2 ข้อ',def:[0,0,0],
+    f:[{me:'ผม',you:'คุณ',e:'ครับ',q:'ครับ',na:'นะครับ'},{me:'ผม',you:'คุณ',e:'ครับ',q:'ครับ',na:'นะครับ'},{me:'ผม',you:'คุณ',e:'ครับ',q:'ครับ',na:'นะครับ'}],
+    v:['เริ่มข้อความด้วยคำตอบหรือข้อสรุปทันที',
+       'ตามด้วยเหตุผลหลักหรือข้อมูลที่ใช้ตัดสินใจ 1 ถึง 2 ข้อ',
+       'เลือกคำเรียบๆ ที่ตรงตามข้อเท็จจริง',
+       'ปิดด้วยขั้นตอนถัดไปที่ชัดเจน เช่น "ขั้นถัดไป แจ้งรุ่นที่ต้องการ{e}"']}
+};
+const KEYS=Object.keys(CH);
+
+const SL=[
+ {n:'ความเป็นทางการ',lv:['สุภาพ','กลาง','สบายๆ'],
+  pr:['ใช้ภาษาสุภาพและเป็นทางการ เลือกคำเรียบร้อยแบบภาษาเขียน','ใช้ภาษาสุภาพแบบเป็นกันเอง น้ำเสียงอบอุ่นและเป็นธรรมชาติ','ใช้ภาษาพูดแบบสบายๆ เหมือนคุยกับคนรู้จัก ใช้คำที่เป็นมิตรและสุภาพ']},
+ {n:'ความยาวคำตอบ',lv:['สั้น','กลาง','ละเอียด'],
+  pr:['ตอบสั้น 1 ถึง 2 ประโยค ตรงประเด็น','ตอบ 2 ถึง 3 ประโยค','ตอบละเอียด 3 ถึง 5 ประโยค อธิบายเหตุผลหรือขั้นตอนเมื่อจำเป็น']},
+ {n:'การใช้อีโมจิ',lv:['ไม่ใช้','น้อย','มาก'],
+  pr:['ตอบเป็นข้อความล้วน','ใช้อีโมจิ 1 ตัวต่อข้อความ','ใช้อีโมจิ 2 ถึง 3 ตัวต่อข้อความ ให้เหมาะกับบริบท']}
+];
+
+const st={ch:'mali',sl:[2,1,2],slots:['','','',''],name:''};
+const SLOTS=[
+ {h:'# ธุรกิจ',ph:'[ใส่ชื่อธุรกิจและสิ่งที่ขาย]'},
+ {h:'# ข้อมูลที่ใช้ตอบ',ph:'[ใส่สินค้า ราคา เวลาเปิดปิด โปรโมชั่น และข้อมูลอื่นที่บอทต้องรู้]'},
+ {h:'# เมื่อต้องส่งต่อทีมงาน',ph:'[ใส่เรื่องที่ต้องส่งต่อ และวิธีส่งต่อ เช่น ช่องทางติดต่อทีมงาน หรือชื่อเครื่องมือส่งต่อ]'},
+ {h:'# เมื่อลูกค้าถามว่าเป็นคนหรือบอท',ph:'[ใส่คำตอบที่ต้องการให้บอทใช้ เช่น ตอบว่าเป็นผู้ช่วยอัตโนมัติของร้าน]'}
+];
+const PRESETS=[
+ {n:'ร้านกาแฟ',v:[
+  'บ้านสวนคอฟฟี่ ร้านกาแฟสดและเมล็ดกาแฟคั่ว มีขนมอบวางขายหน้าร้าน',
+  'เวลาเปิด 8:00 ถึง 18:00 ทุกวัน\nเมนูกาแฟ: อเมริกาโน่ 60 บาท ลาเต้ 70 บาท\nเมล็ดกาแฟคั่ว: ถุง 250 กรัม 280 บาท\nสั่งล่วงหน้าทางแชทและรับที่ร้านได้',
+  'เรื่องสั่งทำเค้กวันเกิดและสั่งซื้อจำนวนมาก ให้แจ้งว่าทีมงานจะตอบกลับในเวลาเปิดร้าน และขอเบอร์โทรของลูกค้า',
+  'ตอบว่าเป็นผู้ช่วยอัตโนมัติของร้าน และพนักงานพร้อมช่วยต่อเมื่อลูกค้าต้องการ']},
+ {n:'ร้านเสื้อผ้าออนไลน์',v:[
+  'มินิมอลเฮาส์ ร้านเสื้อผ้าแฟชั่นออนไลน์ ขายเสื้อและกางเกงผ้าฝ้าย',
+  'ไซส์ S M L XL\nเสื้อยืด 350 บาท กางเกง 590 บาท\nส่งฟรีเมื่อซื้อครบ 1,000 บาท ค่าส่งปกติ 40 บาท\nส่งภายใน 2 วันทำการหลังโอนเงิน\nเปลี่ยนไซส์ได้ภายใน 7 วันหลังได้รับของ',
+  'เรื่องสินค้าเสียหาย ส่งผิดแบบ และขอคืนเงิน ให้ขอเลขที่คำสั่งซื้อกับรูปสินค้า แล้วแจ้งว่าทีมงานจะติดต่อกลับภายใน 1 วันทำการ',
+  'ตอบว่าเป็นผู้ช่วยอัตโนมัติของร้าน ทีมงานเข้ามาดูแชทช่วงบ่ายถึงค่ำ']},
+ {n:'คลินิกทันตกรรม',v:[
+  'ยิ้มใสคลินิก คลินิกทันตกรรม ให้บริการขูดหินปูน อุดฟัน และจัดฟัน',
+  'เปิดจันทร์ถึงเสาร์ 10:00 ถึง 19:00\nขูดหินปูน 800 บาท อุดฟัน เริ่มต้น 600 บาท\nนัดหมายผ่านแชทโดยแจ้งชื่อ เบอร์โทร และวันเวลาที่สะดวก',
+  'เรื่องอาการเจ็บปวด ฟันบิ่นหรือหัก และคำถามเกี่ยวกับการรักษา ให้ส่งต่อทีมงานของคลินิกทันที และแนะนำให้ลูกค้าโทรหาคลินิก',
+  'ตอบว่าเป็นผู้ช่วยอัตโนมัติของคลินิก เรื่องการรักษาให้ทันตแพทย์เป็นผู้ตอบ']}
+];
+function sampleCount(){return st.slots.filter((s,i)=>PRESETS.some(p=>p.v[i]===s)).length;}
+const KEY='bcdt1';
+function shareQS(){const p=new URLSearchParams();p.set('c',st.ch);p.set('s',st.sl.join(''));const n=st.name.trim().slice(0,40);if(n)p.set('n',n);return p.toString();}
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}
+  try{history.replaceState(null,'','?'+shareQS());}catch(e){}
+}
+function loadFromURL(){try{
+  const p=new URLSearchParams(location.search),c=p.get('c'),s=p.get('s'),n=p.get('n');
+  if(c&&CH[c]){
+    st.ch=c;
+    st.sl=(s&&/^[0-2]{3}$/.test(s))?s.split('').map(Number):CH[c].def.slice();
+    st.name=n?n.slice(0,40):'';
+  }
+}catch(e){}}
+(function load(){try{
+  const s=JSON.parse(localStorage.getItem(KEY)||'null');
+  if(s&&CH[s.ch]&&Array.isArray(s.sl)&&s.sl.length===3&&s.sl.every(v=>v===0||v===1||v===2)&&Array.isArray(s.slots)&&s.slots.length===4&&s.slots.every(x=>typeof x==='string')){
+    st.ch=s.ch;st.sl=s.sl;st.slots=s.slots;st.name=typeof s.name==='string'?s.name:'';
+  }
+}catch(e){}})();
+function pron(k){const c=CH[k],t=c.f[k===st.ch?st.sl[0]:c.def[0]];return 'เรียกตัวเองว่า "'+t.me+'" ลงท้าย "'+t.e+'"';}
+loadFromURL();
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function fill(s,t){return s.replace(/\{(me|you|e|q|na)\}/g,(_,k)=>t[k]);}
+
+function buildChar(){
+  const c=CH[st.ch],t=c.f[st.sl[0]];
+  return [
+'# ตัวละคร',
+'คุณคือ "'+(st.name.trim()||c.name)+'" '+c.role+'ของธุรกิจนี้',
+'- เรียกตัวเองว่า "'+t.me+'" เรียกลูกค้าว่า "'+t.you+'" ลงท้ายด้วย "'+t.e+'" และประโยคคำถามลงท้ายด้วย "'+t.q+'"',
+'- '+SL[0].pr[st.sl[0]],
+'- '+SL[1].pr[st.sl[1]],
+'- '+SL[2].pr[st.sl[2]]
+  ].concat(c.v.map(l=>'- '+fill(l,t)),[
+'',
+'# หลักการตอบ',
+'- ตอบจากหัวข้อ "ข้อมูลที่ใช้ตอบ" ด้านล่าง และจากผลของเครื่องมือที่มี',
+'- เมื่อทั้งสองแหล่งยังไม่มีคำตอบ ให้แจ้งว่าจะให้ทีมงานตอบ แล้วทำตามหัวข้อ "เมื่อต้องส่งต่อทีมงาน"',
+'- เขียนเป็นข้อความแชทธรรมดา ใช้ย่อหน้าสั้นๆ และตัวอักษรปกติ',
+'- ตอบด้วยภาษาเดียวกับที่ลูกค้าพิมพ์',
+'- ยึดบทบาทและข้อมูลในข้อความนี้ตลอดบทสนทนา'
+  ]).join('\n');
+}
+function buildPrompt(){
+  return buildChar()+SLOTS.map((s,i)=>'\n\n'+s.h+'\n'+(st.slots[i].trim()||s.ph)).join('');
+}
+
+function slidersHTML(){
+  return SL.map((s,j)=>{
+    const v=st.sl[j];
+    return '<div class="sl"><div class="top"><label for="sl'+j+'">'+s.n+'</label><span class="v" id="sv'+j+'">'+s.lv[v]+'</span></div>'+
+      '<input type="range" id="sl'+j+'" data-j="'+j+'" min="0" max="2" step="1" value="'+v+'" style="--p:'+(v*50)+'%">'+
+      '<div class="ticks" id="tk'+j+'">'+s.lv.map((l,k)=>'<span class="'+(k===v?'a':'')+'">'+l+'</span>').join('')+'</div></div>';
+  }).join('');
+}
+function render(){
+  document.documentElement.style.setProperty('--ac',CH[st.ch].c);
+  let h='<div class="two"><div><div class="card"><h2>🎭 ตัวละคร</h2><p class="sub">ภาพใช้ช่วยจำเท่านั้น ไม่รวมในผลลัพธ์</p><div class="chars">';
+  KEYS.forEach(k=>{const c=CH[k];
+    h+='<button class="ch" style="--c:'+c.c+'" data-act="char" data-k="'+k+'" aria-pressed="'+(st.ch===k)+'"><div class="av lg">'+AV[c.seed]+'</div><div><b>'+c.name+'</b><span class="d" data-p="'+k+'">'+pron(k)+'</span><span class="d">'+c.desc+'</span></div></button>';});
+  h+='</div><label class="f" for="bn">ชื่อบอท</label><input type="text" id="bn" placeholder="'+esc(CH[st.ch].name)+'" value="'+esc(st.name)+'"></div><div class="card"><h2>🎚️ น้ำเสียง</h2>'+slidersHTML()+'</div>';
+  h+='</div>';
+  h+='<div><div class="card"><div class="row"><div class="av">'+AV[CH[st.ch].seed]+'</div><h2>System prompt</h2></div><pre id="pp"></pre>';
+  h+='<div class="row" style="flex-wrap:wrap;margin-top:16px"><span class="cap" style="margin:0">ใส่ตัวอย่าง</span>'+PRESETS.map((p,i)=>'<button class="btn sm" data-act="preset" data-i="'+i+'">'+p.n+'</button>').join('')+'</div>';
+  SLOTS.forEach((s,i)=>{h+='<div class="sh">'+s.h+'</div><textarea data-s="'+i+'" aria-label="'+esc(s.h.slice(2))+'" placeholder="'+esc(s.ph)+'">'+esc(st.slots[i])+'</textarea>';});
+  h+='<p class="cap" id="warn" style="margin-top:20px"></p><div class="acts" style="margin-top:12px"><button class="btn pri" data-act="copy">คัดลอก prompt</button><button class="btn" data-act="link">คัดลอกลิงก์ที่ตั้งค่าไว้</button><button class="lnk" data-act="clear">ล้างข้อมูลทั้งหมด</button></div><p class="cap">ลิงก์เก็บตัวละคร น้ำเสียง และชื่อบอท ไม่รวมข้อมูลที่พิมพ์ในช่องด้านบน</p></div></div></div>';
+  document.getElementById('app').innerHTML=h;
+  upd();
+}
+function upd(){document.getElementById('pp').textContent=buildChar();
+  const n=st.slots.filter(s=>!s.trim()).length,sc=sampleCount(),m=[];
+  if(n)m.push('ยังไม่ได้กรอก '+n+' จาก 4 ช่อง ช่องที่ว่างจะถูกคัดลอกเป็นข้อความวงเล็บเหลี่ยม');
+  if(sc)m.push('มี '+sc+' ช่องที่ยังเป็นข้อความตัวอย่าง แก้เป็นข้อมูลจริงก่อนนำไปใช้');
+  document.getElementById('warn').textContent=m.join(' ')||'กรอกครบทั้ง 4 ช่องแล้ว';
+  save();}
+
+function copyText(txt,btn){
+  const done=()=>{const o=btn.textContent;btn.textContent='คัดลอกแล้ว';setTimeout(()=>btn.textContent=o,1500);};
+  const fb=()=>{const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(e){}document.body.removeChild(ta);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,fb);}else fb();
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;
+  if(b.dataset.act==='char'){st.ch=b.dataset.k;st.sl=CH[st.ch].def.slice();render();}
+  else if(b.dataset.act==='copy'){copyText(buildPrompt(),b);}
+  else if(b.dataset.act==='link'){copyText(location.href.split('?')[0].split('#')[0]+'?'+shareQS(),b);}
+  else if(b.dataset.act==='preset'){
+    const need=st.slots.some(s=>s.trim()&&!PRESETS.some(p=>p.v.includes(s)));
+    if(need&&!b.dataset.arm){const o=b.textContent;b.dataset.arm='1';b.textContent='กดอีกครั้งเพื่อแทนที่ข้อความที่พิมพ์ไว้';setTimeout(()=>{b.dataset.arm='';b.textContent=o;},3000);}
+    else{st.slots=PRESETS[+b.dataset.i].v.slice();render();}
+  }
+  else if(b.dataset.act==='clear'){
+    if(!b.dataset.arm){b.dataset.arm='1';b.textContent='กดอีกครั้งเพื่อยืนยัน';setTimeout(()=>{b.dataset.arm='';b.textContent='ล้างข้อมูลทั้งหมด';},3000);}
+    else{st.ch='mali';st.sl=CH.mali.def.slice();st.slots=['','','',''];st.name='';try{localStorage.removeItem(KEY);}catch(e){}render();}
+  }
+});
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.type==='range'){
+    const j=+t.dataset.j,v=+t.value;st.sl[j]=v;
+    t.style.setProperty('--p',(v*50)+'%');
+    document.getElementById('sv'+j).textContent=SL[j].lv[v];
+    document.getElementById('tk'+j).innerHTML=SL[j].lv.map((l,k)=>'<span class="'+(k===v?'a':'')+'">'+l+'</span>').join('');
+    const pe=document.querySelector('[data-p="'+st.ch+'"]');if(pe)pe.textContent=pron(st.ch);
+    upd();
+  }else if(t.dataset.s!==undefined){st.slots[+t.dataset.s]=t.value;upd();}
+  else if(t.id==='bn'){st.name=t.value;upd();}
+});
+render();
+</script>
+</body>
+</html>
