@@ -195,17 +195,21 @@ const PRESETS=[
 ];
 function sampleCount(){return st.slots.filter((s,i)=>PRESETS.some(p=>p.v[i]===s)).length;}
 const KEY='bcdt1';
-function shareQS(){const p=new URLSearchParams();p.set('c',st.ch);p.set('s',st.sl.join(''));const n=st.name.trim().slice(0,40);if(n)p.set('n',n);return p.toString();}
+function enc(o){const b=new TextEncoder().encode(JSON.stringify(o));let t='';b.forEach(x=>t+=String.fromCharCode(x));return btoa(t).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
+function dec(s){const t=atob(s.replace(/-/g,'+').replace(/_/g,'/'));return JSON.parse(new TextDecoder().decode(Uint8Array.from(t,c=>c.charCodeAt(0))));}
+function shareQS(){const p=new URLSearchParams();p.set('c',st.ch);p.set('s',st.sl.join(''));const n=st.name.trim().slice(0,40);if(n)p.set('n',n);if(st.slots.some(x=>x.trim()))p.set('d',enc(st.slots));return p.toString();}
 function save(){
   try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}
   try{history.replaceState(null,'','?'+shareQS());}catch(e){}
 }
 function loadFromURL(){try{
-  const p=new URLSearchParams(location.search),c=p.get('c'),s=p.get('s'),n=p.get('n');
+  const p=new URLSearchParams(location.search),c=p.get('c'),s=p.get('s'),n=p.get('n'),d=p.get('d');
   if(c&&CH[c]){
     st.ch=c;
     st.sl=(s&&/^[0-2]{3}$/.test(s))?s.split('').map(Number):CH[c].def.slice();
     st.name=n?n.slice(0,40):'';
+    st.slots=['','','',''];
+    if(d){try{const a=dec(d);if(Array.isArray(a)&&a.length===4&&a.every(x=>typeof x==='string'))st.slots=a;}catch(e){}}
   }
 }catch(e){}}
 (function load(){try{
@@ -260,7 +264,7 @@ function render(){
   h+='<div><div class="card"><div class="row"><div class="av">'+AV[CH[st.ch].seed]+'</div><h2>System prompt</h2></div><pre id="pp"></pre>';
   h+='<div class="row" style="flex-wrap:wrap;margin-top:16px"><span class="cap" style="margin:0">ใส่ตัวอย่าง</span>'+PRESETS.map((p,i)=>'<button class="btn sm" data-act="preset" data-i="'+i+'">'+p.n+'</button>').join('')+'</div>';
   SLOTS.forEach((s,i)=>{h+='<div class="sh">'+s.h+'</div><textarea data-s="'+i+'" aria-label="'+esc(s.h.slice(2))+'" placeholder="'+esc(s.ph)+'">'+esc(st.slots[i])+'</textarea>';});
-  h+='<p class="cap" id="warn" style="margin-top:20px"></p><div class="acts" style="margin-top:12px"><button class="btn pri" data-act="copy">คัดลอก prompt</button><button class="btn" data-act="link">คัดลอกลิงก์ที่ตั้งค่าไว้</button><button class="lnk" data-act="clear">ล้างข้อมูลทั้งหมด</button></div><p class="cap">ลิงก์เก็บตัวละคร น้ำเสียง และชื่อบอท ไม่รวมข้อมูลที่พิมพ์ในช่องด้านบน</p></div></div></div>';
+  h+='<p class="cap" id="warn" style="margin-top:20px"></p><div class="acts" style="margin-top:12px"><button class="btn pri" data-act="copy">คัดลอก prompt</button><button class="btn" data-act="link">คัดลอกลิงก์ที่ตั้งค่าไว้</button><button class="lnk" data-act="clear">ล้างข้อมูลทั้งหมด</button></div><p class="cap">ลิงก์เก็บตัวละคร น้ำเสียง ชื่อบอท และข้อมูลที่พิมพ์ในช่องด้านบน</p></div></div></div>';
   document.getElementById('app').innerHTML=h;
   upd();
 }
