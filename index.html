@@ -51,7 +51,8 @@ h1{font-size:28px;line-height:1.4;font-weight:700;margin:0;text-decoration:under
 h2{font-size:18px;line-height:1.5;font-weight:700;margin:0}
 p{margin:0}
 .sub{color:var(--t3);margin-top:4px}
-.hd{margin-bottom:28px}
+.hd{margin-bottom:28px;position:relative}
+#ver{position:absolute;top:0;right:0;font-size:12px;color:var(--t3)}
 .hd .sub{margin-top:12px}
 /* card */
 .card{background:var(--card);border:2px solid var(--ink);border-radius:18px;box-shadow:4px 4px 0 var(--ink);padding:20px}
@@ -118,7 +119,8 @@ pre{margin:14px 0 0;background:color-mix(in srgb,var(--ac) 12%,var(--card));bord
   <div class="hd">
     <div>
       <h1>บอทควรพูดยังไงดี</h1>
-      <p class="sub">เลือกบุคลิกแชทบอท แล้วคัดลอก prompt ไปใช้ <span id="ver" style="opacity:.6"></span></p>
+      <p class="sub">เลือกบุคลิกแชทบอท แล้วคัดลอก prompt ไปใช้</p>
+      <span id="ver"></span>
     </div>
   </div>
   <div id="app"></div>
