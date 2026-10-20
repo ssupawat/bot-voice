@@ -118,7 +118,7 @@ pre{margin:14px 0 0;background:color-mix(in srgb,var(--ac) 12%,var(--card));bord
   <div class="hd">
     <div>
       <h1>บอทควรพูดยังไงดี</h1>
-      <p class="sub">เลือกบุคลิกแชทบอท แล้วคัดลอก prompt ไปใช้</p>
+      <p class="sub">เลือกบุคลิกแชทบอท แล้วคัดลอก prompt ไปใช้ <span id="ver" style="opacity:.6"></span></p>
     </div>
   </div>
   <div id="app"></div>
@@ -194,16 +194,18 @@ const PRESETS=[
   'ตอบว่าเป็นผู้ช่วยอัตโนมัติของคลินิก เรื่องการรักษาให้ทันตแพทย์เป็นผู้ตอบ']}
 ];
 function sampleCount(){return st.slots.filter((s,i)=>PRESETS.some(p=>p.v[i]===s)).length;}
+const VER='1.1.0';
+let linkVer='';
 const KEY='bcdt1';
 function enc(o){const b=new TextEncoder().encode(JSON.stringify(o));let t='';b.forEach(x=>t+=String.fromCharCode(x));return btoa(t).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
 function dec(s){const t=atob(s.replace(/-/g,'+').replace(/_/g,'/'));return JSON.parse(new TextDecoder().decode(Uint8Array.from(t,c=>c.charCodeAt(0))));}
-function shareQS(){const p=new URLSearchParams();p.set('c',st.ch);p.set('s',st.sl.join(''));const n=st.name.trim().slice(0,40);if(n)p.set('n',n);if(st.slots.some(x=>x.trim()))p.set('d',enc(st.slots));return p.toString();}
+function shareQS(){const p=new URLSearchParams();p.set('v',VER);p.set('c',st.ch);p.set('s',st.sl.join(''));const n=st.name.trim().slice(0,40);if(n)p.set('n',n);if(st.slots.some(x=>x.trim()))p.set('d',enc(st.slots));return p.toString();}
 function save(){
   try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}
   try{history.replaceState(null,'','?'+shareQS());}catch(e){}
 }
 function loadFromURL(){try{
-  const p=new URLSearchParams(location.search),c=p.get('c'),s=p.get('s'),n=p.get('n'),d=p.get('d');
+  const p=new URLSearchParams(location.search),c=p.get('c'),s=p.get('s'),n=p.get('n'),d=p.get('d');linkVer=p.get('v')||'';
   if(c&&CH[c]){
     st.ch=c;
     st.sl=(s&&/^[0-2]{3}$/.test(s))?s.split('').map(Number):CH[c].def.slice();
@@ -268,7 +270,8 @@ function render(){
   document.getElementById('app').innerHTML=h;
   upd();
 }
-function upd(){document.getElementById('pp').textContent=buildChar();
+function upd(){document.getElementById('ver').textContent='v'+VER+(linkVer&&linkVer!==VER?' (ลิงก์สร้างจาก v'+esc(linkVer)+')':'');
+  document.getElementById('pp').textContent=buildChar();
   const n=st.slots.filter(s=>!s.trim()).length,sc=sampleCount(),m=[];
   if(n)m.push('ยังไม่ได้กรอก '+n+' จาก 4 ช่อง ช่องที่ว่างจะถูกคัดลอกเป็นข้อความวงเล็บเหลี่ยม');
   if(sc)m.push('มี '+sc+' ช่องที่ยังเป็นข้อความตัวอย่าง แก้เป็นข้อมูลจริงก่อนนำไปใช้');
