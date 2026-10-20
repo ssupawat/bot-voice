@@ -83,7 +83,8 @@ p{margin:0}
 .ch span.d{font-size:13px;color:var(--t2);line-height:1.5;display:block;margin-top:2px}
 /* grid */
 .two{display:grid;grid-template-columns:1fr;gap:22px}
-@media(min-width:820px){.two{grid-template-columns:1fr 1fr;align-items:start}.wrap{padding-top:44px}}
+@media(min-width:820px){.two{grid-template-columns:1fr 1fr}.two>div{display:flex}.two>div>.card{flex:1;min-width:0}.wrap{padding-top:44px}}
+.div{border-top:2px dashed var(--ink);margin:24px 0 20px;opacity:.35}
 /* slider */
 .sl{margin-top:22px}
 .sl .top{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600;color:var(--t2);margin-bottom:12px}
@@ -262,7 +263,7 @@ function render(){
   let h='<div class="two"><div><div class="card"><h2>🎭 ตัวละคร</h2><p class="sub">ภาพใช้ช่วยจำเท่านั้น ไม่รวมในผลลัพธ์</p><div class="chars">';
   KEYS.forEach(k=>{const c=CH[k];
     h+='<button class="ch" style="--c:'+c.c+'" data-act="char" data-k="'+k+'" aria-pressed="'+(st.ch===k)+'"><div class="av lg">'+AV[c.seed]+'</div><div><b>'+c.name+'</b><span class="d" data-p="'+k+'">'+pron(k)+'</span><span class="d">'+c.desc+'</span></div></button>';});
-  h+='</div><label class="f" for="bn">ชื่อบอท</label><input type="text" id="bn" placeholder="'+esc(CH[st.ch].name)+'" value="'+esc(st.name)+'"></div><div class="card"><h2>🎚️ น้ำเสียง</h2>'+slidersHTML()+'</div>';
+  h+='</div><label class="f" for="bn">ชื่อบอท</label><input type="text" id="bn" placeholder="'+esc(CH[st.ch].name)+'" value="'+esc(st.name)+'"><div class="div"></div><h2>🎚️ น้ำเสียง</h2>'+slidersHTML()+'</div>';
   h+='</div>';
   h+='<div><div class="card"><div class="row"><div class="av">'+AV[CH[st.ch].seed]+'</div><h2>System prompt</h2></div><pre id="pp"></pre>';
   h+='<div class="row" style="flex-wrap:wrap;margin-top:16px"><span class="cap" style="margin:0">ใส่ตัวอย่าง</span>'+PRESETS.map((p,i)=>'<button class="btn sm" data-act="preset" data-i="'+i+'">'+p.n+'</button>').join('')+'</div>';
