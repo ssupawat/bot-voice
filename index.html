@@ -197,7 +197,7 @@ const PRESETS=[
   'ตอบว่าเป็นผู้ช่วยอัตโนมัติของคลินิก เรื่องการรักษาให้ทันตแพทย์เป็นผู้ตอบ']}
 ];
 function sampleCount(){return st.slots.filter((s,i)=>PRESETS.some(p=>p.v[i]===s)).length;}
-const VER='1.1.0';
+const VER='1.1.1';
 const KEY='bcdt1';
 function enc(o){const b=new TextEncoder().encode(JSON.stringify(o));let t='';b.forEach(x=>t+=String.fromCharCode(x));return btoa(t).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
 function dec(s){const t=atob(s.replace(/-/g,'+').replace(/_/g,'/'));return JSON.parse(new TextDecoder().decode(Uint8Array.from(t,c=>c.charCodeAt(0))));}
